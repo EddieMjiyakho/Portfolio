@@ -100,39 +100,4 @@
     .text-container {
       text-align: justify;
     }
-    
-    /* Default Styles for the Image */
-.about-pic {
-  display: block; /* Ensure the image is always displayed */
-  border-radius: 2rem;
-  max-width: 100%; /* Ensure responsiveness */
-  height: auto; /* Maintain aspect ratio */
-}
-
-/* Fix for Screens Larger Than 768px */
-@media screen and (min-width: 769px) {
-  .about-pic {
-    width: auto; /* Allow image to adapt naturally on larger screens */
-    max-width: 100%; /* Avoid overflow */
-    height: auto;
   }
-}
-
-/* Mobile View Adjustments */
-@media screen and (max-width: 768px) {
-  .about-pic {
-    display: block; /* Ensure visibility on mobile */
-    width: 100%; /* Make it fully responsive */
-    height: auto; /* Maintain aspect ratio */
-  }
-}
-
-/* Media Query for Tablets and Small Laptops */
-@media screen and (max-width: 1200px) {
-  .about-pic {
-    display: block; /* Ensure image visibility */
-    width: 90%; /* Adjust size for better fit */
-    margin: 0 auto; /* Center the image */
-  }
-  }
-}  
