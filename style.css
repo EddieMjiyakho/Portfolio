@@ -173,6 +173,32 @@ section {
   gap: 4rem;
 }
 
+.services-link {
+  display: inline-block;
+  padding: 10px 15px;
+  border: rgb(145, 142, 142) 0.1rem solid;
+  background-color: rgb(64, 93, 175);
+  color: rgb(218, 213, 213);
+  text-decoration: none;
+  border-radius: 2rem;
+  font-weight: bold;
+  
+}
+
+.services-link:hover {
+  background-color: rgb(235, 229, 229);
+  border-color: white;
+  text-decoration: none;
+  text-underline-offset: none;
+}
+
+/* Adjust for mobile menu */
+.menu-links .services-link {
+  display: block;
+  text-align: center;
+  margin: 10px 0;
+}
+
 /* PROFILE SECTION */
 
 #profile {

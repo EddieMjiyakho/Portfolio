@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Services Pricing Calculator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --background-light: #c4c7c9;
+            --text-color: #21303f;
+            --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #6c757d;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .service-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .service-section h3 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .service-section h3 i {
+            margin-right: 0.75rem;
+        }
+
+        .service-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .service-list label {
+            display: flex;
+            align-items: center;
+            background-color: var(--background-light);
+            padding: 0.75rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .service-list label:hover {
+            background-color: #e9ecef;
+        }
+
+        .service-list input[type="checkbox"] {
+            margin-right: 0.75rem;
+            accent-color: var(--primary-color);
+        }
+
+        .calculate-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 1.5rem;
+        }
+
+        .calculate-btn:hover {
+            background-color: #27ae60;
+        }
+
+        .total-price {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 1.5rem 0;
+        }
+
+        .price-breakdown {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .price-breakdown table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .price-breakdown th, 
+        .price-breakdown td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .price-breakdown th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .general-pricing {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .service-info {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+
+        @media (max-width: 768px) {
+            .service-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .social-section {
+        background-color: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+        box-shadow: var(--card-shadow);
+        text-align: center;
+    }
+
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 1rem;
+        flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    }
+
+    .social-links a {
+        color: var(--text-color);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.25rem;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        min-width: 140px; /* Ensure consistent width */
+        justify-content: center; /* Center the content */
+    }
+
+    .social-links a:hover {
+        background-color: var(--background-light);
+        transform: translateY(-2px);
+    }
+
+    .social-links i {
+        font-size: 1.5rem;
+    }
+
+    .fa-whatsapp { color: #25D366; }
+    .fa-envelope { color: #EA4335; }
+    .fa-facebook { color: #1877F2; }
+    .fa-instagram { color: #E4405F; }
+    .fa-linkedin { color: #0A66C2; }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+        .social-links {
+            gap: 1rem;
+            flex-direction: column;
+            align-items: stretch;
+            padding: 0 1rem;
+        }
+
+        .social-links a {
+            width: 100%;
+            padding: 1rem;
+            justify-content: flex-start;
+            font-size: 1.1rem;
+        }
+
+        .social-links i {
+            width: 2rem; /* Fixed width for icons to align text */
+            font-size: 1.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .social-section {
+            padding: 1rem;
+        }
+
+        .social-links {
+            padding: 0;
+        }
+
+        .social-links a {
+            padding: 0.875rem;
+            font-size: 1rem;
+        }
+    }
+
+    /* Improve container padding for mobile */
+    @media (max-width: 768px) {
+        .container {
+            padding: 1rem;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Eddie's Web Services Pricing Calculator</h1>
+            <p>Customize your digital solution and get an instant quote. Select the services you need, and we'll calculate the total price for you.</p>
+        </div>
+
+        <!-- Website Development Section -->
+        <div class="service-section">
+            <h3><i class="fas fa-laptop-code"></i>Website Development</h3>
+            <div class="service-list">
+                <label>
+                    <input type="checkbox" class="service" value="875">
+                    <div>
+                        Custom Website Design
+                        <div class="service-info">Full website development using HTML, CSS, JavaScript</div>
+                    </div>
+                </label>
+                <label>
+                    <input type="checkbox" class="service" value="250">
+                    <div>
+                        SEO Setup
+                        <div class="service-info">Basic search engine optimization</div>
+                    </div>
+                </label>
+                <label>
+                    <input type="checkbox" class="service" value="375">
+                    <div>
+                        Mobile Responsiveness
+                        <div class="service-info">Ensures website works perfectly on all devices</div>
+                    </div>
+                </label>
+                <label>
+                    <input type="checkbox" class="service" value="125">
+                    <div>
+                        Domain and Hosting Setup
+                        <div class="service-info">Basic domain registration and hosting configuration</div>
+                    </div>
+                </label>
+                <label>
+                    <input type="checkbox" class="service" value="250">
+                    <div>
+                        Website Maintenance
+                        <div class="service-info">Monthly updates and support</div>
+                    </div>
+                </label>
+                <label>
+                    <input type="checkbox" class="service" value="200">
+                    <div>
+                        Testing & Debugging
+                        <div class="service-info">Comprehensive website testing and issue resolution</div>
+                    </div>
+                </label>
+                <label>
+                    <input type="checkbox" class="service" value="500">
+                    <div>
+                        Website Security Setup
+                        <div class="service-info">Advanced security measures and protection</div>
+                    </div>
+                </label>
+                <label>
+                    <input type="checkbox" class="service" value="400">
+                    <div>
+                        SSL Certificate Installation
+                        <div class="service-info">Secure HTTPS encryption for your website</div>
+                    </div>
+                </label>
+                <label>
+                    <input type="checkbox" class="service" value="350">
+                    <div>
+                        User Registration & Profiles
+                        <div class="service-info">Custom user account system</div>
+                    </div>
+                </label>
+                <label>
+                    <input type="checkbox" class="service" value="300">
+                    <div>
+                        Contact Forms
+                        <div class="service-info">Custom contact and inquiry forms</div>
+                    </div>
+                </label>
+                <label>
+                    <input type="checkbox" class="service" value="450">
+                    <div>
+                        Newsletter Subscription
+                        <div class="service-info">Integrated email newsletter signup</div>
+                    </div>
+                </label>
+                <label>
+                    <input type="checkbox" class="service" value="600">
+                    <div>
+                        Multi-language Support
+                        <div class="service-info">Website translation and localization</div>
+                    </div>
+                </label>
+                <label>
+                    <input type="checkbox" class="service" value="500">
+                    <div>
+                        Payment Gateway Integration
+                        <div class="service-info">Secure online payment processing</div>
+                    </div>
+                </label>
+                <label>
+                    <input type="checkbox" class="service" value="300">
+                    <div>
+                        E-commerce Product Page Design
+                        <div class="service-info">Professional online store product pages</div>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <!-- Mobile Application Development Section -->
+        <div class="service-section">
+            <h3><i class="fas fa-mobile-alt"></i>Mobile App Development</h3>
+            <div class="service-list">
+                <label>
+                    <input type="checkbox" class="service" value="1500">
+                    <div>
+                        Custom App Design & Development
+                        <div class="service-info">Complete mobile application from concept to deployment</div>
+                    </div>
+                </label>
+                <label>
+                    <input type="checkbox" class="service" value="500">
+                    <div>
+                        User Authentication
+                        <div class="service-info">Secure login and user management system</div>
+                    </div>
+                </label>
+                <!-- More mobile app development services... -->
+            </div>
+        </div>
+
+        <!-- Database Services Section -->
+        <div class="service-section">
+            <h3><i class="fas fa-database"></i>Database Services</h3>
+            <div class="service-list">
+                <label>
+                    <input type="checkbox" class="service" value="250">
+                    <div>
+                        Database Integration
+                        <div class="service-info">MySQL or PostgreSQL database setup</div>
+                    </div>
+                </label>
+                <label>
+                    <input type="checkbox" class="service" value="200">
+                    <div>
+                        Database Configuration
+                        <div class="service-info">Optimized database setup and tuning</div>
+                    </div>
+                </label>
+                <!-- More database services... -->
+            </div>
+        </div>
+
+        <!-- Per Page Charges -->
+        <div class="service-section">
+            <h3><i class="fas fa-file-alt"></i>Page Configuration</h3>
+            <div class="service-list">
+                <label>
+                    Number of Pages: 
+                    <input type="number" id="num-pages" value="1" min="1" style="margin-left: 0.5rem; width: 70px;">
+                </label>
+                <label>
+                    <input type="checkbox" class="service" id="per-page-charge" value="100">
+                    Per Page Design Charge
+                    <div class="service-info">Customized layout and design per page</div>
+                </label>
+            </div>
+        </div>
+
+        <!-- General Pricing Section -->
+        <div class="general-pricing">
+            <h3><i class="fas fa-info-circle"></i>Additional Information</h3>
+            <p><strong>Domain Registration:</strong> R300 per year (.co.za domain)</p>
+            <p><strong>Website Hosting:</strong> R200 per month (shared hosting)</p>
+            <p><strong>Premium Hosting:</strong> R500 per month (dedicated server)</p>
+        </div>
+
+        <!-- Total Price and Breakdown -->
+        <button class="calculate-btn" onclick="calculateTotal()">Calculate Total Price</button>
+        <div class="total-price" id="total-price">Total Price: R0</div>
+        
+        <div class="price-breakdown" id="price-breakdown" style="display: none;">
+            <h3>Price Breakdown</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Price (R)</th>
+                    </tr>
+                </thead>
+                <tbody id="price-details"></tbody>
+            </table>
+        </div>
+
+        <div class="social-section">
+            <h3><i class="fas fa-address-book"></i> Contact Me</h3>
+            <div class="social-links">
+                <a href="https://wa.me/27724981445" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>WhatsApp</span>
+                </a>
+                <a href="mailto:eddie.mjiyakho@gmail.com">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email</span>
+                </a>
+                
+                
+                <a href="https:www.linkedin.com/in/eddie-mjiyakho" target="_blank">
+                    <i class="fab fa-linkedin"></i>
+                    <span>LinkedIn</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateTotal() {
+            const services = document.querySelectorAll('.service:not(#per-page-charge)');
+            const numPages = parseInt(document.getElementById('num-pages').value) || 1;
+            const perPageCharge = document.getElementById('per-page-charge').checked;
+            
+            let total = 0;
+            let breakdown = [];
+
+            // Validate number of pages
+            if (numPages < 1) {
+                alert('Number of pages must be at least 1');
+                return;
+            }
+
+            // Calculate selected services
+            services.forEach(service => {
+                if (service.checked) {
+                    const serviceValue = parseInt(service.value);
+                    total += serviceValue;
+                    
+                    // Get full service description
+                    const serviceLabel = service.closest('label');
+                    const serviceName = serviceLabel ? 
+                        serviceLabel.textContent.trim().split('\n')[0] : 
+                        'Unnamed Service';
+                    
+                    breakdown.push({
+                        name: serviceName,
+                        price: serviceValue
+                    });
+                }
+            });
+
+            // Add per-page charge if selected
+            if (perPageCharge) {
+                const pageCharges = 100 * numPages;
+                total += pageCharges;
+                breakdown.push({
+                    name: `Per Page Design Charge (${numPages} pages)`,
+                    price: pageCharges
+                });
+            }
+
+            // Add domain and hosting
+            const domainCost = 300;
+            const hostingCost = 200;
+            total += domainCost + hostingCost;
+            breakdown.push({
+                name: 'Domain Registration',
+                price: domainCost
+            });
+            breakdown.push({
+                name: 'Basic Hosting',
+                price: hostingCost
+            });
+
+            // Sort breakdown by price (descending)
+            breakdown.sort((a, b) => b.price - a.price);
+
+            // Generate HTML for price breakdown
+            const breakdownHTML = breakdown.map(item => 
+                `<tr><td>${item.name}</td><td>R${item.price}</td></tr>`
+            ).join('');
+
+            // Display Results
+            const totalPriceElement = document.getElementById('total-price');
+            const priceDetailsElement = document.getElementById('price-details');
+            const priceBreakdownElement = document.getElementById('price-breakdown');
+
+            totalPriceElement.innerText = `Total Price: R${total}`;
+            priceDetailsElement.innerHTML = breakdownHTML;
+            priceBreakdownElement.style.display = 'block';
+
+            // Optional: Animate price reveal
+            totalPriceElement.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                totalPriceElement.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        // Add event listeners to recalculate when page number changes
+        document.getElementById('num-pages').addEventListener('change', calculateTotal);
+        document.getElementById('per-page-charge').addEventListener('change', calculateTotal);
+
+        // Initial calculation to show base price
+        calculateTotal();
+    </script>
+</body>
+</html>
