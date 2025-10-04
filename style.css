@@ -471,6 +471,63 @@ article .icon {
   height: 2.5rem;
 }
 
+/* CERTIFICATES PAGE */
+.certificates-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+  margin: 4rem auto;
+  padding: 0 2rem;
+  justify-items: center;
+}
+
+.certificate-card {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.certificate-card:hover {
+  transform: scale(1.04);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.certificate-card img {
+  width: 100%;
+  border-radius: 1rem;
+  height: auto;
+  margin-bottom: 1rem;
+  object-fit: contain;
+}
+
+.certificate-card h3 {
+  color: #111;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.certificate-card p {
+  color: #555;
+  font-size: 1rem;
+}
+
+.section__text__p2 {
+  max-width: 800px;
+  margin: 1.5rem auto 2rem auto;
+  text-align: center;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #f0eeee;
+}
+
+
+
 /* FOOTER SECTION */
 
 footer {
