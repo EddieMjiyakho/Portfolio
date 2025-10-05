@@ -320,7 +320,7 @@ section {
 }
 
 .about-containers {
-  gap: 2rem;
+  gap: 2.5rem;
   margin-bottom: 2rem;
   margin-top: 2rem;
 }
@@ -523,7 +523,7 @@ article .icon {
   text-align: center;
   font-size: 1.05rem;
   line-height: 1.8;
-  color: #f0eeee;
+  color: #ffffff;
 }
 
 
